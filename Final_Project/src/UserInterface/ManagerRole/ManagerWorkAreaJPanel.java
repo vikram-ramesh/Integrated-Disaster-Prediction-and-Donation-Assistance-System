@@ -6,12 +6,20 @@
 package UserInterface.ManagerRole;
 
 import Business.Enterprise.Enterprise;
+import Business.Enterprise.ResearchEnterprise;
+import Business.Network.Network;
 import Business.Organization.ManagmentOrganization;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkQueue.DonationWorkRequest;
+import Business.WorkQueue.EmergencyWorkRequest;
 import Business.WorkQueue.WorkRequest;
 import java.awt.CardLayout;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -30,13 +38,16 @@ public class ManagerWorkAreaJPanel extends javax.swing.JPanel {
     //private DonationWorkRequest request;
     private UserAccount useraccount;
     private ManagmentOrganization managementOrganization;
+    private Network network;
 
-    public ManagerWorkAreaJPanel(JPanel UserProcessContainer, Enterprise enterprise, UserAccount useraccount, Organization organization ) {
+    public ManagerWorkAreaJPanel(JPanel UserProcessContainer, Enterprise enterprise, UserAccount useraccount, Organization organization,Network network ) {
         initComponents();
         this.UserProcessContainer = UserProcessContainer;
         //this.request = request;
         this.useraccount = useraccount;
+        this.network = network;
         this.managementOrganization = (ManagmentOrganization) organization;
+        emergencyLabel.show(false);
 
         populateTable();
     }
@@ -44,8 +55,17 @@ public class ManagerWorkAreaJPanel extends javax.swing.JPanel {
     public void populateTable() {
 
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-
+        ImageIcon imageIcon;
         model.setRowCount(0);
+//        BufferedImage image = null;
+//        try 
+//        {
+//            image = ImageIO.read(new File("source.gif"));
+//        }
+//        catch (Exception e) 
+//        {
+//            e.printStackTrace();
+//        }
         //DonationWorkRequest request2 = (DonationWorkRequest) request;
         for (WorkRequest request : managementOrganization.getWorkQueue().getWorkRequestList()) 
         {
@@ -59,7 +79,51 @@ public class ManagerWorkAreaJPanel extends javax.swing.JPanel {
 
             model.addRow(row);
         }
+        for(Enterprise en: network.getEnterpriseDirectory().getEnterpriseList()){//WorkRequest request : organization.getWorkQueue().getWorkRequestList()
+            if (en instanceof ResearchEnterprise) {
+                for(WorkRequest request : en.getWorkQueue().getWorkRequestList()){
+                    if (request instanceof EmergencyWorkRequest) {
+                        if (((EmergencyWorkRequest) request).getResearch().getEmergency().equals("Earthquake Emergency")) {
+                            setSize(50,50);
+                            setLocation(40,30);
+                            //setDefaultCloseOperation(EXIT_ON_CLOSE);
+                            //JPanel p = new JPanel();
+                            //emergencyPanel.add(new JLabel(new ImageIcon("source.gif")));
+
+    //                        imageIcon = new ImageIcon(fitimage(image, emergencyLabel.getWidth(), emergencyLabel.getHeight()));
+    //                        emergencyLabel.setIcon(imageIcon);
+                            ImageIcon ii = new ImageIcon("C:\\Users\\vikram\\Documents\\NetBeansProjects\\Final_Project\\Images\\Earthquake2.gif");
+                            emergencyLabel.setIcon(ii);
+                            emergencyLabel.show(true);
+                        }
+                        else if (((EmergencyWorkRequest) request).getResearch().getEmergency().equals("Hurricane Emergency")){
+                            ImageIcon ii = new ImageIcon("C:\\Users\\vikram\\Documents\\NetBeansProjects\\Final_Project\\Images\\hurricanegif.gif");
+                            emergencyLabel.setIcon(ii);
+                            emergencyLabel.show(true);
+                        }
+                        else if (((EmergencyWorkRequest) request).getResearch().getEmergency().equals("Tsunami Emergency")) {
+                            ImageIcon ii = new ImageIcon("C:\\Users\\vikram\\Documents\\NetBeansProjects\\Final_Project\\Images\\Tsunamigif.gif");
+                            emergencyLabel.setIcon(ii);
+                            emergencyLabel.show(true);
+                        }
+//                        emergencyLabel.add(new JLabel(new ImageIcon("source.gif")));
+                        //getContentPane().add(emergencyPanel);
+                    }
+                }
+                    break; 
+            }
+        }
     }
+    
+    
+    private Image fitimage(BufferedImage image, int width, int height) {
+    BufferedImage resizedimage = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+    Graphics2D g2 = resizedimage.createGraphics();
+    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    g2.drawImage(image, 0, 0,width,height,null);
+    g2.dispose();
+    return resizedimage;    
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,6 +139,7 @@ public class ManagerWorkAreaJPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         sendAckBtn = new javax.swing.JButton();
         backBtn = new javax.swing.JButton();
+        emergencyLabel = new javax.swing.JLabel();
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -107,35 +172,42 @@ public class ManagerWorkAreaJPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(99, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(183, 183, 183))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(93, 93, 93)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(183, 183, 183))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(93, 93, 93))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(sendAckBtn)
-                        .addGap(172, 172, 172))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(backBtn)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(12, 12, 12)
+                        .addComponent(emergencyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(backBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(sendAckBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+                        .addGap(51, 51, 51))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1)
-                .addGap(77, 77, 77)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
-                .addComponent(sendAckBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(backBtn)
-                .addGap(108, 108, 108))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sendAckBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel1)
+                        .addGap(77, 77, 77)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(emergencyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)))
+                .addGap(101, 101, 101))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -163,9 +235,14 @@ public class ManagerWorkAreaJPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
+    private javax.swing.JLabel emergencyLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
     private javax.swing.JButton sendAckBtn;
     // End of variables declaration//GEN-END:variables
+
+    private Object getContentPane() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

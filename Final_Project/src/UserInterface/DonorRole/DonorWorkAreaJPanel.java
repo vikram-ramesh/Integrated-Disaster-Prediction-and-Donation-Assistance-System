@@ -6,6 +6,7 @@
 package UserInterface.DonorRole;
 
 import Business.Enterprise.Enterprise;
+import Business.Network.Network;
 import Business.Organization.DonationOrganization;
 import Business.UserAccount.UserAccount;
 import UserInterface.AdministrativeRole.ManageOrganizationJPanel;
@@ -26,12 +27,15 @@ private JPanel userProcessContainer;
 private UserAccount account;
 private DonationOrganization donationOrganization;
 private Enterprise enterprise;
-    public DonorWorkAreaJPanel(JPanel userProcessContainer, UserAccount account, DonationOrganization donationOrganization, Enterprise enterprise) {
+private Network network;
+
+    public DonorWorkAreaJPanel(JPanel userProcessContainer, UserAccount account, DonationOrganization donationOrganization, Enterprise enterprise,Network network) {
         initComponents();
         this.userProcessContainer = userProcessContainer;
         this.account = account;
         this.donationOrganization = donationOrganization;
         this.enterprise = enterprise;
+        this.network = network;
         
     }
 
@@ -95,14 +99,14 @@ private Enterprise enterprise;
     }// </editor-fold>//GEN-END:initComponents
 
     private void nonMonetoryDonationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonMonetoryDonationBtnActionPerformed
-    NonMonetoryDonationJPanel nonMonetoryDonationJPanel = new NonMonetoryDonationJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise);
+        NonMonetoryDonationJPanel nonMonetoryDonationJPanel = new NonMonetoryDonationJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise);
         userProcessContainer.add("NonMonetoryDonationJPanel", nonMonetoryDonationJPanel);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.next(userProcessContainer);
     }//GEN-LAST:event_nonMonetoryDonationBtnActionPerformed
 
     private void monetoryDonationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monetoryDonationBtnActionPerformed
-         MonetoryDonationJPanel monetoryDonationJPanel = new MonetoryDonationJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise);
+        MonetoryDonationJPanel monetoryDonationJPanel = new MonetoryDonationJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise);
         userProcessContainer.add("MonetoryDonationJPanel", monetoryDonationJPanel);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.next(userProcessContainer);

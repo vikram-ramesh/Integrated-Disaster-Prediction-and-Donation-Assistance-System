@@ -5,13 +5,12 @@
 package Business.Enterprise;
 
 import Business.Role.AdminRole;
-import Business.Role.ManagerRole;
 import Business.Role.Role;
 import java.util.ArrayList;
 
 /**
  *
- * @author raunak
+ * @author vikram
  */
 public class DonationMgmtEnterprise extends Enterprise{
 
@@ -26,7 +25,4 @@ public class DonationMgmtEnterprise extends Enterprise{
         roles.add(new AdminRole());
         return roles;
     }
-    
-    
-    
 }

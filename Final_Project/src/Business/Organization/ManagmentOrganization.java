@@ -25,8 +25,4 @@ public class ManagmentOrganization extends Organization{
         roles.add(new ManagerRole());
         return roles;
     }
-     
-   
-    
-    
 }

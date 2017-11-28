@@ -133,6 +133,7 @@ public class MainJFrame extends javax.swing.JFrame {
         UserAccount userAccount = system.getUserAccountDirectory().authenticateUser(userName, password);
         Enterprise inEnterprise = null;
         Organization inOrganization = null;
+        Network inNetwork = null;
         if (userAccount == null) {
             //Step2: Go inside each network to check each enterprise
             for (Network network : system.getNetworkList()) {
@@ -146,6 +147,7 @@ public class MainJFrame extends javax.swing.JFrame {
                             if (userAccount != null) {
                                 inEnterprise = enterprise;
                                 inOrganization = organization;
+                                inNetwork = network;
                                 break;
                             }
                         }
@@ -168,7 +170,7 @@ public class MainJFrame extends javax.swing.JFrame {
             return;
         } else {
             CardLayout layout = (CardLayout) container.getLayout();
-            container.add("workArea", userAccount.getRole().createWorkArea(container, userAccount, inOrganization, inEnterprise, system));
+            container.add("workArea", userAccount.getRole().createWorkArea(container, userAccount, inOrganization, inEnterprise, system,inNetwork));
             layout.next(container);
         }
          loginJButton.setEnabled(false);

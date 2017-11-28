@@ -68,6 +68,11 @@ private OrganizationDirectory organizationDirectory;
 
         dropOffBtn.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         dropOffBtn.setText("Donate at drop off >>");
+        dropOffBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dropOffBtnActionPerformed(evt);
+            }
+        });
 
         backBtn.setText("<< Back");
 
@@ -129,6 +134,10 @@ private OrganizationDirectory organizationDirectory;
                 .addGap(113, 113, 113))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void dropOffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropOffBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dropOffBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
