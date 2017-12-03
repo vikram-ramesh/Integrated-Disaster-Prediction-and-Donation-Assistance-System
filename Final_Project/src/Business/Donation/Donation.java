@@ -5,8 +5,6 @@
  */
 package Business.Donation;
 
-import Business.UserAccount.UserAccount;
-
 /**
  *
  * @author mansi

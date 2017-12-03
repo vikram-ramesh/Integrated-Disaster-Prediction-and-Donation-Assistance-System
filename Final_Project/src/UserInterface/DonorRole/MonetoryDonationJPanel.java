@@ -215,7 +215,7 @@ public class MonetoryDonationJPanel extends javax.swing.JPanel {
 
     private void makeDonationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeDonationBtnActionPerformed
     int amount =    Integer.parseInt(enterAmountTxtFld.getText());
-      if(amount == 0 || enterAmountTxtFld.getText().equals("")){
+    if(amount == 0 || enterAmountTxtFld.getText().equals("")){
           JOptionPane.showMessageDialog(null, "Invalid Donation Amount");
           return;
       }

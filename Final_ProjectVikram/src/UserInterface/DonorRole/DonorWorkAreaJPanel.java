@@ -38,6 +38,9 @@ private Network network;
         this.enterprise = enterprise;
         this.network = network;
         
+        
+        
+        
     }
 
     /**
@@ -50,19 +53,13 @@ private Network network;
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        emergencyBtn = new javax.swing.JButton();
         nonEmergencyBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel1.setText("Donor work area");
-
-        emergencyBtn.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        emergencyBtn.setText("Emergency >>");
-        emergencyBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emergencyBtnActionPerformed(evt);
-            }
-        });
 
         nonEmergencyBtn.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         nonEmergencyBtn.setText("Non Emergency >>");
@@ -71,6 +68,18 @@ private Network network;
                 nonEmergencyBtnActionPerformed(evt);
             }
         });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Status", "", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jButton1.setText("Donate");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -82,22 +91,30 @@ private Network network;
                         .addGap(227, 227, 227)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(282, 282, 282)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nonEmergencyBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
-                            .addComponent(emergencyBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(238, Short.MAX_VALUE))
+                        .addGap(248, 248, 248)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(336, 336, 336)
+                        .addComponent(nonEmergencyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(jLabel1)
-                .addGap(70, 70, 70)
-                .addComponent(emergencyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addComponent(jButton1)))
+                .addGap(84, 84, 84)
                 .addComponent(nonEmergencyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -108,17 +125,12 @@ private Network network;
         layout.next(userProcessContainer);
     }//GEN-LAST:event_nonEmergencyBtnActionPerformed
 
-    private void emergencyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emergencyBtnActionPerformed
-        EmergencyJPanel emergencyJPanel = new EmergencyJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise);
-        userProcessContainer.add("emergencyJPanel", emergencyJPanel);
-        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
-        layout.next(userProcessContainer);
-    }//GEN-LAST:event_emergencyBtnActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton emergencyBtn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton nonEmergencyBtn;
     // End of variables declaration//GEN-END:variables
 }

@@ -23,14 +23,16 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
 
     JPanel userProcessContainer;
     EcoSystem system;
+    Network network;
 
     /**
      * Creates new form AdminWorkAreaJPanel
      */
-    public SystemAdminWorkAreaJPanel(JPanel userProcessContainer, EcoSystem system) {
+    public SystemAdminWorkAreaJPanel(JPanel userProcessContainer, EcoSystem system,Network network) {
         initComponents();
         this.userProcessContainer = userProcessContainer;
         this.system = system;
+        this.network = network;
 
         populateTree();
     }

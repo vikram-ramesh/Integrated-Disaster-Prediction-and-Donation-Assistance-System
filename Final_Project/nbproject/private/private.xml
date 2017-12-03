@@ -3,12 +3,38 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/namra/Desktop/MSIS%20NU/Sem%201/AED/FinalProject/myFinalProject/Final_Project/src/UserInterface/ManagerRole/AcknowledgementJPanel.java</file>
             <file>file:/C:/Users/namra/Desktop/MSIS%20NU/Sem%201/AED/FinalProject/myFinalProject/Final_Project/src/UserInterface/DonorRole/DriveThroughJPanel.java</file>
             <file>file:/C:/Users/namra/Desktop/MSIS%20NU/Sem%201/AED/FinalProject/myFinalProject/Final_Project/src/UserInterface/ManagerRole/ManagerWorkAreaJPanel.java</file>
             <file>file:/C:/Users/namra/Desktop/MSIS%20NU/Sem%201/AED/FinalProject/myFinalProject/Final_Project/src/Business/DB4OUtil/DB4OUtil.java</file>
             <file>file:/C:/Users/namra/Desktop/MSIS%20NU/Sem%201/AED/FinalProject/myFinalProject/Final_Project/src/UserInterface/DonorRole/DropOffJPanel.java</file>
             <file>file:/C:/Users/namra/Desktop/MSIS%20NU/Sem%201/AED/FinalProject/myFinalProject/Final_Project/src/UserInterface/DonorRole/DonorWorkAreaJPanel.java</file>
+=======
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/UserInterface/DonorRole/MonetoryDonationJPanel.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Enterprise/EnterpriseDirectory.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Organization/DonationOrganization.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/WorkQueue/WorkRequest.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/UserInterface/ScientistRole/ScientistWorkAreaJPanel.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Organization/Organization.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/UserInterface/DonorRole/DonorWorkAreaJPanel.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/UserInterface/ManagerRole/ManagerWorkAreaJPanel.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/UserInterface/AdministrativeRole/AdminWorkAreaJPanel.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/UserInterface/DonorRole/NonMonetoryDonationJPanel.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Organization/OrganizationDirectory.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Role/DonorRole.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Organization/ManagmentOrganization.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Organization/ResearchOrganization.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Organization/AdminOrganization.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Enterprise/DonationMgmtEnterprise.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/WorkQueue/DonationWorkRequest.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Role/AdminRole.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/WorkQueue/WorkQueue.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Enterprise/Enterprise.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Donation/Donation.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/Business/Role/ScientistRole.java</file>
+            <file>file:/C:/Users/vikram/Documents/NetBeansProjects/Final_Project/src/UserInterface/AdministrativeRole/ManageOrganizationJPanel.java</file>
+>>>>>>> adf2ab49155a2134787940d73aa786b245d3dcbf
         </group>
     </open-files>
 </project-private>

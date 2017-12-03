@@ -7,6 +7,7 @@
 package UserInterface.AdministrativeRole;
 
 import Business.Enterprise.Enterprise;
+import Business.Network.Network;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 
@@ -18,11 +19,13 @@ public class AdminWorkAreaJPanel extends javax.swing.JPanel {
     
     JPanel userProcessContainer;
     Enterprise enterprise;
+    Network network;
     /** Creates new form AdminWorkAreaJPanel */
-    public AdminWorkAreaJPanel(JPanel userProcessContainer, Enterprise enterprise) {
+    public AdminWorkAreaJPanel(JPanel userProcessContainer, Enterprise enterprise,Network network) {
         initComponents();
         this.userProcessContainer = userProcessContainer;
         this.enterprise = enterprise;
+        this.network = network;
         valueLabel.setText(enterprise.getName());
     }
     
@@ -44,9 +47,9 @@ public class AdminWorkAreaJPanel extends javax.swing.JPanel {
         setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("My Work Area -Aminstrative Role");
+        jLabel1.setText("My Work Area -Adminstrative Role");
         add(jLabel1);
-        jLabel1.setBounds(80, 40, 396, 29);
+        jLabel1.setBounds(80, 40, 430, 29);
 
         userJButton.setText("Manage User");
         userJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -73,7 +76,7 @@ public class AdminWorkAreaJPanel extends javax.swing.JPanel {
             }
         });
         add(manageOrganizationJButton);
-        manageOrganizationJButton.setBounds(200, 130, 135, 23);
+        manageOrganizationJButton.setBounds(200, 130, 150, 30);
 
         enterpriseLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         enterpriseLabel.setText("EnterPrise :");

@@ -28,6 +28,10 @@ public class EnterpriseDirectory {
             enterprise = new DonationMgmtEnterprise(name);
             enterpriseList.add(enterprise);
         }
+        else if(type == Enterprise.EnterpriseType.Research){
+            enterprise = new ResearchEnterprise(name);
+            enterpriseList.add(enterprise);
+        }
         return enterprise;
     }
     

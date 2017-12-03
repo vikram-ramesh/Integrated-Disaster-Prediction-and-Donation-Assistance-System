@@ -33,6 +33,10 @@ public class OrganizationDirectory {
             organization = new ManagmentOrganization();
             organizationList.add(organization);
         }
+        else if (type.getValue().equals(Type.Research.getValue())){
+            organization = new ResearchOrganization();
+            organizationList.add(organization);
+        }
         return organization;
     }
 }
