@@ -20,4 +20,11 @@ public class Research {
         this.emergency = emergency;
     }
     
+    @Override
+    public String toString()
+    {
+        return emergency;
+                
+    }
+    
 }

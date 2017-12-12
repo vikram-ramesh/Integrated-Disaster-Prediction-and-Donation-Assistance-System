@@ -5,6 +5,7 @@
  */
 package UserInterface.SystemAdminWorkArea;
 
+import UserInterface.AnalystRole.AnalystWorkAreaJPanel;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
@@ -137,15 +138,14 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(manageAdminJButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(manageNetworkJButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(manageEnterpriseJButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(manageEnterpriseJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(manageNetworkJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(selectedNodeJLabel)))
-                .addContainerGap(119, Short.MAX_VALUE))
+                        .addComponent(selectedNodeJLabel))
+                    .addComponent(manageAdminJButton))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,12 +155,12 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(selectedNodeJLabel))
                 .addGap(50, 50, 50)
-                .addComponent(manageNetworkJButton)
-                .addGap(71, 71, 71)
-                .addComponent(manageEnterpriseJButton)
-                .addGap(67, 67, 67)
-                .addComponent(manageAdminJButton)
-                .addContainerGap())
+                .addComponent(manageNetworkJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(manageEnterpriseJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(manageAdminJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(233, 233, 233))
         );
 
         jSplitPane1.setRightComponent(jPanel1);
@@ -214,6 +214,7 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_valueChangedAction
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTree JTree;
     private javax.swing.JLabel jLabel1;

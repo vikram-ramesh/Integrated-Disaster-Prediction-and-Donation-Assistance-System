@@ -9,14 +9,22 @@ import Business.EcoSystem;
 import Business.Enterprise.DonationMgmtEnterprise;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
+import Business.Organization.ManagmentOrganization;
 import Business.Organization.Organization;
 import Business.Organization.ResearchOrganization;
 import Business.UserAccount.UserAccount;
-import Business.WorkQueue.EmergencyWorkRequest;
+import Business.WorkQueue.ScientistWorkRequest;
 import UserInterface.DonorRole.MonetoryDonationJPanel;
 import java.awt.CardLayout;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -34,7 +42,8 @@ public class ScientistWorkAreaJPanel extends javax.swing.JPanel {
     EcoSystem business;
     Network network;
     
-    public ScientistWorkAreaJPanel(JPanel userProcessContainer, UserAccount account, ResearchOrganization researchOrganization, Enterprise enterprise,EcoSystem business,Network network) {
+    public ScientistWorkAreaJPanel(JPanel userProcessContainer, UserAccount account, ResearchOrganization researchOrganization, Enterprise enterprise,EcoSystem business,Network network) 
+    {
         initComponents();
         this.userProcessContainer = userProcessContainer;
         this.account = account;
@@ -43,10 +52,141 @@ public class ScientistWorkAreaJPanel extends javax.swing.JPanel {
         this.business = business;
         this.network = network;
         
-        btnHurricane.setToolTipText("Hurricane");
+        //btnHurricane.setToolTipText("Hurricane");
         btnEarthquake.setToolTipText("Earthquake");
-        btnTsunami.setToolTipText("Tsunami");
+        //btnTsunami.setToolTipText("Tsunami");
+        
+        //probabilityJLabell.setText();
+
+
+        prob();
+
     }
+   
+    public void prob()
+    {
+        double T;
+        double N = 10;
+        double P;
+        
+        
+        String csvFile = "C:\\Users\\mansi\\Desktop\\Backup_Project\\Namrata\\Final_ProjectFor3rdDecember\\Final_ProjectFor3rdDecember\\Prediction.csv";// name of your filw
+        
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+        HashMap <String,Integer> predictionMap = new HashMap<>();
+        //key = city, value = frequency
+        try
+        {
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null)
+            {
+                String[] array = line.split(cvsSplitBy);
+                System.out.println("City  -->" + array[0] + "Area  -->" + array[1]);
+                
+                DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+               // dtm.setRowCount(0);
+                
+              
+                Object[] row = new Object[2];
+                 row[0] = array[0];
+                 row[1] = array[1];
+                 
+                 dtm.addRow(row);
+                
+                 
+                
+                int counter = 1;
+                if(predictionMap.containsKey(array[0]))
+                {
+                    counter =   predictionMap.get(array[0]);
+                    counter ++;
+                    predictionMap.put(array[0], counter);
+                }
+                else
+                {
+                   predictionMap.put(array[0], counter); 
+                }
+             
+            }
+            
+            
+                
+        }
+        
+        
+        catch(Exception e)
+        {
+              System.out.println("Bad Read");      
+        }
+        
+        for(Map.Entry<String,Integer> entry : predictionMap.entrySet())
+        {
+            System.out.println("City -->"  + entry.getKey() +"Frequency-->" + entry.getValue()  );
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+            T = N/entry.getValue();
+            P = 1/T;
+            
+            //probabilityJLabell.setText(entry.getKey().toString() +" " +" Probability " +P);
+            cityName1.setText(entry.getKey());
+            p1TxtFld.setText(String.valueOf(P));
+            
+            
+            
+            if(P >= 0.7)
+            {
+                System.out.println(entry.getKey());
+                cityName2.setText(entry.getKey());
+                p2TxtFld.setText(String.valueOf(P));
+                
+                //send a workrequest to the manager about the quake in this place
+                
+                ScientistWorkRequest request = new ScientistWorkRequest();
+                request.getResearch().setEmergency("Earthquake");
+        //request.setMessage(message);
+            JOptionPane.showMessageDialog(null, "Request Sent");
+            request.setSender(account);
+            Organization org = null;
+            Enterprise ent = null;
+            for (Enterprise en: network.getEnterpriseDirectory().getEnterpriseList()) 
+            {
+                    if (en instanceof DonationMgmtEnterprise)
+                    {
+                        for(Organization organization : en.getOrganizationDirectory().getOrganizationList())
+                        {
+                            if(organization instanceof ManagmentOrganization)
+                            {
+                                org = organization;
+                                ent = en;
+                                break;
+                            }
+                        }
+                        
+                    }  
+            }
+                
+            if (ent!=null)
+            {
+                request.setStatus("Emergency");
+                request.setArea(entry.getKey());
+                org.getWorkQueue().getWorkRequestList().add(request);
+                account.getWorkQueue().getWorkRequestList().add(request);
+            }
+                
+            }
+            
+            
+        }
+        
+        
+    }
+
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,9 +199,13 @@ public class ScientistWorkAreaJPanel extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         btnEmergency = new javax.swing.JButton();
-        btnHurricane = new javax.swing.JButton();
-        btnTsunami = new javax.swing.JButton();
         btnEarthquake = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        p1TxtFld = new javax.swing.JTextField();
+        p2TxtFld = new javax.swing.JTextField();
+        cityName1 = new javax.swing.JLabel();
+        cityName2 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -76,53 +220,56 @@ public class ScientistWorkAreaJPanel extends javax.swing.JPanel {
                 btnEmergencyActionPerformed(evt);
             }
         });
-        add(btnEmergency, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, 232, 41));
+        add(btnEmergency, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 140, 232, 41));
 
-        btnHurricane.setIcon(new javax.swing.ImageIcon("C:\\Users\\vikram\\Documents\\NetBeansProjects\\Final_Project\\Images\\Hurricane.png")); // NOI18N
-        btnHurricane.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHurricaneActionPerformed(evt);
-            }
-        });
-        add(btnHurricane, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 390, -1, 124));
-
-        btnTsunami.setIcon(new javax.swing.ImageIcon("C:\\Users\\vikram\\Documents\\NetBeansProjects\\Final_Project\\Images\\Tsunami.png")); // NOI18N
-        btnTsunami.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTsunamiActionPerformed(evt);
-            }
-        });
-        add(btnTsunami, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, -1, 130));
-
-        btnEarthquake.setIcon(new javax.swing.ImageIcon("C:\\Users\\vikram\\Documents\\NetBeansProjects\\Final_Project\\Images\\Earthquake.png")); // NOI18N
         btnEarthquake.setRolloverEnabled(false);
         btnEarthquake.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEarthquakeActionPerformed(evt);
             }
         });
-        add(btnEarthquake, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, 130));
+        add(btnEarthquake, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 420, 160));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Area", "Year"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, -1, 160));
+        add(p1TxtFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, 80, -1));
+        add(p2TxtFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 380, 80, -1));
+        add(cityName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 60, 20));
+        add(cityName2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 60, 20));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEmergencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmergencyActionPerformed
         // TODO add your handling code here:
-        EmergencyWorkRequest request = new EmergencyWorkRequest();
+        ScientistWorkRequest request = new ScientistWorkRequest();
         request.getResearch().setEmergency("");
         //request.setMessage(message);
         JOptionPane.showMessageDialog(null, "Request Sent");
         request.setSender(account);
         Organization org = null;
         Enterprise ent = null;
-            for (Enterprise en: network.getEnterpriseDirectory().getEnterpriseList()) {
-                      if (en instanceof DonationMgmtEnterprise){
-                    ent = en;
-                    break;
-                }  
-                    }
-                if (ent!=null){
-                    request.setStatus("Emergency");
-            ent.getWorkQueue().getWorkRequestList().add(request);               
-        }
+            for (Enterprise en: network.getEnterpriseDirectory().getEnterpriseList()) 
+            {
+                    if (en instanceof DonationMgmtEnterprise)
+                    {
+                        ent = en;
+                        break;
+                    }  
+            }
+                
+            if (ent!=null)
+            {
+                request.setStatus("Emergency");
+                ent.getWorkQueue().getWorkRequestList().add(request);               
+            }
         
 //        for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()){
 //            if (organization instanceof ManagmentOrganization){
@@ -136,14 +283,6 @@ public class ScientistWorkAreaJPanel extends javax.swing.JPanel {
 //        }
     }//GEN-LAST:event_btnEmergencyActionPerformed
     
-    private void btnHurricaneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHurricaneActionPerformed
-        // TODO add your handling code here:
-        HurricanePredictionJPanel hurricanePredictionJPanel = new HurricanePredictionJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise,network);
-        userProcessContainer.add("HurricanePredictionJPanel", hurricanePredictionJPanel);
-        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
-        layout.next(userProcessContainer);
-    }//GEN-LAST:event_btnHurricaneActionPerformed
-
     private void btnEarthquakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEarthquakeActionPerformed
         // TODO add your handling code here:
         EarthquakePredictionJPanel earthquakePredictionJPanel = new EarthquakePredictionJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise,network);
@@ -152,20 +291,16 @@ public class ScientistWorkAreaJPanel extends javax.swing.JPanel {
         layout.next(userProcessContainer);
     }//GEN-LAST:event_btnEarthquakeActionPerformed
 
-    private void btnTsunamiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTsunamiActionPerformed
-        // TODO add your handling code here:
-        TsunamiPredictionJPanel tsunamiPredictionJPanel = new TsunamiPredictionJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise,network);
-        userProcessContainer.add("TsunamiPredictionJPanel", tsunamiPredictionJPanel);
-        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
-        layout.next(userProcessContainer);
-    }//GEN-LAST:event_btnTsunamiActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEarthquake;
     private javax.swing.JButton btnEmergency;
-    private javax.swing.JButton btnHurricane;
-    private javax.swing.JButton btnTsunami;
+    private javax.swing.JLabel cityName1;
+    private javax.swing.JLabel cityName2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField p1TxtFld;
+    private javax.swing.JTextField p2TxtFld;
     // End of variables declaration//GEN-END:variables
 }

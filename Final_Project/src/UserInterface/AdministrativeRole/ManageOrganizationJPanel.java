@@ -27,7 +27,6 @@ public class ManageOrganizationJPanel extends javax.swing.JPanel {
         initComponents();
         this.userProcessContainer = userProcessContainer;
         this.directory = directory;
-        
         populateTable();
         populateCombo();
     }
@@ -42,9 +41,7 @@ public class ManageOrganizationJPanel extends javax.swing.JPanel {
 
     private void populateTable(){
         DefaultTableModel model = (DefaultTableModel) organizationJTable.getModel();
-        
-        model.setRowCount(0);
-        
+        model.setRowCount(0);        
         for (Organization organization : directory.getOrganizationList()){
             Object[] row = new Object[2];
             row[0] = organization.getOrganizationID();

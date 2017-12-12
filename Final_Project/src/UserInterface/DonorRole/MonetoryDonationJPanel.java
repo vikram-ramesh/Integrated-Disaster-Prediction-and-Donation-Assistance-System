@@ -11,7 +11,18 @@ import Business.Organization.Organization;
 import Business.Organization.OrganizationDirectory;
 import Business.UserAccount.UserAccount;
 import Business.WorkQueue.DonationWorkRequest;
+import UserInterface.MainJFrame;
 import java.awt.CardLayout;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -28,8 +39,10 @@ public class MonetoryDonationJPanel extends javax.swing.JPanel {
     private UserAccount userAccount;
     private Enterprise enterprise;
     private OrganizationDirectory organizationDirectory;
+    int k;
 
-    MonetoryDonationJPanel(JPanel userProcessContainer, OrganizationDirectory organizationDirectory, UserAccount ua, Enterprise enterprise) {
+    MonetoryDonationJPanel(JPanel userProcessContainer, OrganizationDirectory organizationDirectory, UserAccount ua, Enterprise enterprise) 
+    {
         initComponents();
         this.userProcessContainer = userProcessContainer;
         this.organizationDirectory = organizationDirectory;
@@ -55,9 +68,6 @@ public class MonetoryDonationJPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         donarNameTxtFld = new javax.swing.JTextField();
-        donarLastNameTxtFld = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         cardNoTxtFld = new javax.swing.JTextField();
@@ -67,12 +77,21 @@ public class MonetoryDonationJPanel extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         noRadioButton = new javax.swing.JRadioButton();
         yesRadioButton = new javax.swing.JRadioButton();
+        jLabel11 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setText("Monetory Donations");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(455, 22, 400, -1));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Enter amount you want to donate");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, 290, 30));
+        add(enterAmountTxtFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 420, 210, 30));
 
         makeDonationBtn.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         makeDonationBtn.setText("Make donation");
@@ -81,147 +100,137 @@ public class MonetoryDonationJPanel extends javax.swing.JPanel {
                 makeDonationBtnActionPerformed(evt);
             }
         });
+        add(makeDonationBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 580, 138, 35));
 
-        backBtn.setText("<< Back");
+        backBtn.setBackground(new java.awt.Color(255, 255, 255));
+        backBtn.setIcon(new javax.swing.ImageIcon("C:\\Users\\vikram\\Desktop\\Captureback.PNG")); // NOI18N
         backBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backBtnActionPerformed(evt);
             }
         });
+        add(backBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, 40));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel3.setText("$");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 30, 30));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Name (as it appears on the credit card)");
-
-        jLabel5.setText("First Name");
-
-        jLabel6.setText("Last Name");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, -1, 30));
+        add(donarNameTxtFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 350, 30));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(166, 177, -1, 19));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Card Number");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, 110, 20));
+        add(cardNoTxtFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 350, 30));
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Expiration Date");
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 290, 170, 30));
 
-        ComboBoxMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboBoxMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        ComboBoxMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxMonthActionPerformed(evt);
+            }
+        });
+        add(ComboBoxMonth, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 50, 30));
 
-        jComboBoxYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031" }));
+        add(jComboBoxYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 60, 30));
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("ANONYMOUS  DONATIONS");
+        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 470, 240, 30));
 
         buttonGroup1.add(noRadioButton);
         noRadioButton.setText("No");
+        add(noRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 510, 60, 40));
 
         buttonGroup1.add(yesRadioButton);
         yesRadioButton.setText("Yes");
+        yesRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yesRadioButtonActionPerformed(evt);
+            }
+        });
+        add(yesRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 510, 50, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(215, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(267, 267, 267))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(donarNameTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(115, 115, 115)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(donarLastNameTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(cardNoTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ComboBoxMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBoxYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(enterAmountTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(yesRadioButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(noRadioButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(backBtn)
-                        .addGap(89, 89, 89)
-                        .addComponent(makeDonationBtn)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jLabel1)
-                .addGap(11, 11, 11)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(donarNameTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(donarLastNameTxtFld))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(cardNoTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ComboBoxMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(enterAmountTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel10)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(yesRadioButton)
-                    .addComponent(noRadioButton))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(backBtn)
-                    .addComponent(makeDonationBtn))
-                .addGap(137, 137, 137))
-        );
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("Email Address");
+        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 110, 180, 30));
+
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
+        add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 140, 300, 30));
+
+        jLabel12.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel12.setIcon(new javax.swing.ImageIcon("C:\\Users\\vikram\\Desktop\\Capture.PNG")); // NOI18N
+        add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 210, 123, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void makeDonationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeDonationBtnActionPerformed
     int amount =    Integer.parseInt(enterAmountTxtFld.getText());
-    if(amount == 0 || enterAmountTxtFld.getText().equals("")){
+    if(amount == 0 || enterAmountTxtFld.getText().equals(""))
+    {
           JOptionPane.showMessageDialog(null, "Invalid Donation Amount");
           return;
-      }
-        DonationWorkRequest request = new DonationWorkRequest();
+    }
+    
+        String from = "aedprojectmail@gmail.com";
+        String pass = "securepayment";
+        String add = txtEmail.getText();
+        String[] to = {add};
+        String host = "smtp.gmail.com"; 
         
+        Properties prop = System.getProperties();
+        prop.put("mail.smtp.starttls.enable","true");
+        prop.put("mail.smtp.host",host);
+        prop.put("mail.smtp.user",from);
+        prop.put("mail.smtp.password",pass);
+        prop.put("mail.smtp.port","587");
+        prop.put("mail.smtp.auth","true");
+        
+        //Session session = Session.getDefaultInstance(prop);
+        Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(from, pass);
+            }
+        });
+        MimeMessage msg = new MimeMessage(session);
+        try {
+            msg.setFrom(new InternetAddress(from));
+            InternetAddress[] toAddress = new InternetAddress[to.length];
+            for (int i = 0; i < to.length; i++) {
+                toAddress[i] = new InternetAddress(to[i]);
+            }
+            for (int i = 0; i < toAddress.length; i++) {
+                msg.setRecipient(Message.RecipientType.TO, toAddress[i]);
+            }
+            
+            msg.setSubject("test");
+            double k1 = Math.random()*100000;//Integer.toString(k)
+            k = (int) k1;
+            //System.out.println(k);
+            msg.setContent(Integer.toString(k),"text/html;charset=\"ISO-8859-1\"");
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host,from,pass);
+            transport.sendMessage(msg, msg.getAllRecipients());
+            transport.close();
+                   
+        } catch (MessagingException ex) {
+            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+        DonationWorkRequest request = new DonationWorkRequest();
         request.getDonation().setMoneyDonation(amount);
+        request.setDonationType(DonationWorkRequest.DonationType.Emergency);
         request.setSender(userAccount);
         request.setStatus("Donated");
 
@@ -236,12 +245,24 @@ public class MonetoryDonationJPanel extends javax.swing.JPanel {
             org.getWorkQueue().getWorkRequestList().add(request);
             userAccount.getWorkQueue().getWorkRequestList().add(request);
         }
-        JOptionPane.showMessageDialog(null, "Thank you for your donation");
         
     }//GEN-LAST:event_makeDonationBtnActionPerformed
 
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void ComboBoxMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxMonthActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_ComboBoxMonthActionPerformed
+
+    private void yesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yesRadioButtonActionPerformed
+
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-      userProcessContainer.remove(this);
+        userProcessContainer.remove(this);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.previous(userProcessContainer);
     }//GEN-LAST:event_backBtnActionPerformed
@@ -252,22 +273,22 @@ public class MonetoryDonationJPanel extends javax.swing.JPanel {
     private javax.swing.JButton backBtn;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField cardNoTxtFld;
-    private javax.swing.JTextField donarLastNameTxtFld;
     private javax.swing.JTextField donarNameTxtFld;
     private javax.swing.JTextField enterAmountTxtFld;
     private javax.swing.JComboBox<String> jComboBoxYear;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JButton makeDonationBtn;
     private javax.swing.JRadioButton noRadioButton;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JRadioButton yesRadioButton;
     // End of variables declaration//GEN-END:variables
 }

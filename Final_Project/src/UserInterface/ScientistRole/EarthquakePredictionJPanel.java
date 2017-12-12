@@ -12,8 +12,9 @@ import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.Organization.OrganizationDirectory;
 import Business.UserAccount.UserAccount;
-import Business.WorkQueue.EmergencyWorkRequest;
+import Business.WorkQueue.ScientistWorkRequest;
 import Business.WorkQueue.WorkRequest;
+import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -53,6 +54,7 @@ public class EarthquakePredictionJPanel extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         btnPredict = new javax.swing.JButton();
+        backBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(51, 255, 0));
@@ -60,7 +62,7 @@ public class EarthquakePredictionJPanel extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Hurricane Prediction");
+        jLabel1.setText("Earthquake Prediction");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 960, 40));
 
         btnPredict.setText("Predict");
@@ -69,13 +71,21 @@ public class EarthquakePredictionJPanel extends javax.swing.JPanel {
                 btnPredictActionPerformed(evt);
             }
         });
-        add(btnPredict, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 240, 170, 30));
+        add(btnPredict, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 420, 170, 30));
+
+        backBtn.setText("<<Back");
+        backBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnActionPerformed(evt);
+            }
+        });
+        add(backBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 410, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPredictActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPredictActionPerformed
         // TODO add your handling code here:
         
-        EmergencyWorkRequest request = new EmergencyWorkRequest();
+        ScientistWorkRequest request = new ScientistWorkRequest();
         
 //        request.setSender(userAccount);
 //        request.setStatus("Donated");
@@ -83,22 +93,38 @@ public class EarthquakePredictionJPanel extends javax.swing.JPanel {
         //request.setMessage(message);
         Organization org = null;
         Enterprise ent = null;
-            for (Enterprise en: network.getEnterpriseDirectory().getEnterpriseList()) {
-                      if (en instanceof ResearchEnterprise){
+            for (Enterprise en: network.getEnterpriseDirectory().getEnterpriseList()) 
+            {
+                if (en instanceof ResearchEnterprise)
+                {
                     ent = en;
                     break;
                 }  
-                    }
-                if (ent!=null){
+            }
+                
+            if (ent!=null)
+            {
                     JOptionPane.showMessageDialog(null, "Request Sent");
                     request.setSender(account);
                     request.getResearch().setEmergency("Earthquake Emergency");
                     //request.setStatus("Earthquake Emergency");
+                    
                     ent.getWorkQueue().getWorkRequestList().add(request);
+                    account.getWorkQueue().getWorkRequestList().add(request);
     }//GEN-LAST:event_btnPredictActionPerformed
-}
+    }
+    
+    private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
+        // TODO add your handling code here:
+        userProcessContainer.remove(this);
+        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+        layout.previous(userProcessContainer);
+    }//GEN-LAST:event_backBtnActionPerformed
 
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backBtn;
     private javax.swing.JButton btnPredict;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables

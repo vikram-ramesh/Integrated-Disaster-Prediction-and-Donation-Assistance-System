@@ -5,8 +5,10 @@
 package Business.Organization;
 
 
+import Business.Role.DriverRole;
 import Business.Role.ManagerRole;
 import Business.Role.Role;
+import java.sql.Driver;
 import java.util.ArrayList;
 
 /**
@@ -23,6 +25,7 @@ public class ManagmentOrganization extends Organization{
     public ArrayList<Role> getSupportedRole() {
         ArrayList<Role> roles = new ArrayList<>();
         roles.add(new ManagerRole());
+        roles.add(new DriverRole());
         return roles;
     }
 }

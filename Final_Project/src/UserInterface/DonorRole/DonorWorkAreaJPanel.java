@@ -5,13 +5,16 @@
  */
 package UserInterface.DonorRole;
 
+import Business.Enterprise.DonationMgmtEnterprise;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.DonationOrganization;
+import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
-import UserInterface.AdministrativeRole.ManageOrganizationJPanel;
+import Business.WorkQueue.WorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -29,14 +32,41 @@ private DonationOrganization donationOrganization;
 private Enterprise enterprise;
 private Network network;
 
-    public DonorWorkAreaJPanel(JPanel userProcessContainer, UserAccount account, DonationOrganization donationOrganization, Enterprise enterprise,Network network) {
+    public DonorWorkAreaJPanel(JPanel userProcessContainer, UserAccount account, DonationOrganization donationOrganization, Enterprise enterprise,Network network) 
+    {
         initComponents();
         this.userProcessContainer = userProcessContainer;
         this.account = account;
         this.donationOrganization = donationOrganization;
         this.enterprise = enterprise;
         this.network = network;
+        populateTable();
+    }
+    
+    public void populateTable()
+    {
+        DefaultTableModel dtm = (DefaultTableModel) myTable.getModel();
+        dtm.setRowCount(0);
         
+//        for(WorkRequest req : donationOrganization.getWorkQueue().getWorkRequestList())
+//        {
+//            Object[] row = new Object[3];
+//            row[0] = req.getMessage();
+//            row[1] = 
+//            row[2] =
+//        }
+        for(Organization or: enterprise.getOrganizationDirectory().getOrganizationList()){//WorkRequest request : organization.getWorkQueue().getWorkRequestList()
+            if (or instanceof DonationOrganization) {
+                for(WorkRequest request : or.getWorkQueue().getWorkRequestList()){
+                    Object[] row = new Object[3];
+                    row[0] = request.getMessage();
+                    row[1] = request.getStatus();
+                    row[2] = request.getReceiver();
+                    dtm.addRow(row);
+                }
+                    break; 
+            }
+        }
     }
 
     /**
@@ -49,25 +79,36 @@ private Network network;
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        monetoryDonationBtn = new javax.swing.JButton();
-        nonMonetoryDonationBtn = new javax.swing.JButton();
+        nonEmergencyBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        myTable = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel1.setText("Donor work area");
 
-        monetoryDonationBtn.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        monetoryDonationBtn.setText("Monetory Donation >>");
-        monetoryDonationBtn.addActionListener(new java.awt.event.ActionListener() {
+        nonEmergencyBtn.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        nonEmergencyBtn.setText("Non Emergency >>");
+        nonEmergencyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                monetoryDonationBtnActionPerformed(evt);
+                nonEmergencyBtnActionPerformed(evt);
             }
         });
 
-        nonMonetoryDonationBtn.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        nonMonetoryDonationBtn.setText("Non-Monetory Donation >>");
-        nonMonetoryDonationBtn.addActionListener(new java.awt.event.ActionListener() {
+        myTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Area", "Event", "Emergency"
+            }
+        ));
+        jScrollPane1.setViewportView(myTable);
+
+        jButton1.setText("Donate >>");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nonMonetoryDonationBtnActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -76,46 +117,53 @@ private Network network;
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(227, 227, 227)
-                .addComponent(jLabel1)
-                .addContainerGap(238, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nonMonetoryDonationBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(monetoryDonationBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(320, 320, 320))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(336, 336, 336)
+                        .addComponent(nonEmergencyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(263, 263, 263)
+                        .addComponent(jLabel1)))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel1)
-                .addGap(83, 83, 83)
-                .addComponent(monetoryDonationBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(nonMonetoryDonationBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(241, 241, 241))
+                .addGap(55, 55, 55)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
+                .addGap(84, 84, 84)
+                .addComponent(nonEmergencyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(188, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nonMonetoryDonationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonMonetoryDonationBtnActionPerformed
-        NonMonetoryDonationJPanel nonMonetoryDonationJPanel = new NonMonetoryDonationJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise);
-        userProcessContainer.add("NonMonetoryDonationJPanel", nonMonetoryDonationJPanel);
+    private void nonEmergencyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonEmergencyBtnActionPerformed
+        NonEmergencyJPanel nonEmergencyJPanel = new NonEmergencyJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise);
+        userProcessContainer.add("nonEmergencyJPanel", nonEmergencyJPanel);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.next(userProcessContainer);
-    }//GEN-LAST:event_nonMonetoryDonationBtnActionPerformed
+    }//GEN-LAST:event_nonEmergencyBtnActionPerformed
 
-    private void monetoryDonationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monetoryDonationBtnActionPerformed
-        MonetoryDonationJPanel monetoryDonationJPanel = new MonetoryDonationJPanel(userProcessContainer, enterprise.getOrganizationDirectory(),account,enterprise);
-        userProcessContainer.add("MonetoryDonationJPanel", monetoryDonationJPanel);
-        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
-        layout.next(userProcessContainer);
-    }//GEN-LAST:event_monetoryDonationBtnActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JButton monetoryDonationBtn;
-    private javax.swing.JButton nonMonetoryDonationBtn;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable myTable;
+    private javax.swing.JButton nonEmergencyBtn;
     // End of variables declaration//GEN-END:variables
 }

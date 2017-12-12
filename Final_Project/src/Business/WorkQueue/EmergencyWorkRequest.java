@@ -5,26 +5,11 @@
  */
 package Business.WorkQueue;
 
-
-import Business.Research.Research;
-
 /**
  *
- * @author vikram
+ * @author namra
  */
-public class EmergencyWorkRequest extends WorkRequest{
-    private Research research;
-        
-    public EmergencyWorkRequest(){
-        research = new Research();
-    }
-
-    public Research getResearch() {
-        return research;
-    }
-
-    public void setResearch(Research research) {
-        this.research = research;
-    }
-
+public class EmergencyWorkRequest extends DonationWorkRequest 
+{
+    
 }

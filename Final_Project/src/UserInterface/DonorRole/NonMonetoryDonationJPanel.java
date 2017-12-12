@@ -6,8 +6,12 @@
 package UserInterface.DonorRole;
 
 import Business.Enterprise.Enterprise;
+import Business.Organization.ManagmentOrganization;
+import Business.Organization.Organization;
 import Business.Organization.OrganizationDirectory;
 import Business.UserAccount.UserAccount;
+import Business.WorkQueue.DonationWorkRequest;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -137,6 +141,35 @@ private OrganizationDirectory organizationDirectory;
 
     private void dropOffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropOffBtnActionPerformed
         // TODO add your handling code here:
+        float foodWeight = Float.parseFloat(foodWeightTxtFld.getText());
+        float clothesWeight = Float.parseFloat(clothingWeightTxtFld.getText());
+        
+        if(foodWeightTxtFld.getText().equals("") && clothingWeightTxtFld.getText().equals(""))
+        {
+          JOptionPane.showMessageDialog(null, "Invalid Donation Amount");
+          return;
+        }
+        
+        DonationWorkRequest request = new DonationWorkRequest();
+        
+        request.setDonationType(DonationWorkRequest.DonationType.Emergency);
+        request.getDonation().setFood_quantity(foodWeight);
+        request.getDonation().setCloth_quantity(clothesWeight);
+        
+        Organization org = null;
+        for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()) {
+            if (organization instanceof ManagmentOrganization) {
+                org = organization;
+                break;
+            }
+        }
+        if (org != null) {
+            org.getWorkQueue().getWorkRequestList().add(request);
+            userAccount.getWorkQueue().getWorkRequestList().add(request);
+        }
+        JOptionPane.showMessageDialog(null, "Thank you for your donation");
+        
+        
     }//GEN-LAST:event_dropOffBtnActionPerformed
 
 

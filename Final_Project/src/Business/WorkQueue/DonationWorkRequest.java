@@ -17,6 +17,30 @@ import Business.Donation.Donation;
 public class DonationWorkRequest extends WorkRequest{
     
     private Donation donation;
+    private DonationType donationType;
+    
+    public enum DonationType
+    {
+            Emergency("EmergencyDonation"),NonEmergency("NonEmergencyDonation");
+        
+            private String value;
+
+            private DonationType(String value) 
+            {
+                this.value = value;
+            }
+
+            public String getValue() 
+            {
+                return value;
+            }
+
+            @Override
+            public String toString() 
+            {
+                return value;
+            }
+    }
     
     public DonationWorkRequest(){
         donation = new Donation();
@@ -28,6 +52,14 @@ public class DonationWorkRequest extends WorkRequest{
 
     public void setDonation(Donation donation) {
         this.donation = donation;
+    }
+
+    public DonationType getDonationType() {
+        return donationType;
+    }
+
+    public void setDonationType(DonationType donationType) {
+        this.donationType = donationType;
     }
    
     
